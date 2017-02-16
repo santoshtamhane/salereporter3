@@ -1,0 +1,52 @@
+// http://ionicframework.com/docs/v2/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+$colors: (
+primary:            #607D8B,
+  secondary:        #02B57E,
+  danger:           #f53d3d,
+  light:            #f4f4f4,
+  dark:             #757776,
+  favorite:         #69BB7B,
+  bg-color:         #e2dfdc,
+  fb-color:         #3B5999,
+  tw-color:         #00ACEE,
+  orange:           #FE5722,
+  flight-color:     #1E498D,
+  car-color:        #9B4E7C,
+  activity-color:   #E88530,
+  transport-color:  #B83E63,
+  green:            #68C91F,
+  white:            #FFFFFF,
+  border-color:     #ECECEC,
+  blue:             #0063BB,
+  menu-bg:          #3f4041,
+  extra-dark:       #2e3f53
+);
+//This theme overrides the $positive and $calm variable
+$positive: #36465d !default;
+$calm: #519ec8 !default;
+$dark-positive: #445569;
+$extra-dark: #2e3f53;
+
+.menu {
+background-color:map-get($colors,extra-dark);
+color: map-get($colors,light);
+menu-ios-background: secondary;
+menu-md-background: primary !important;
+menu-wp-background: dark;
+
+}

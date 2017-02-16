@@ -1,0 +1,164 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon> 
+    </button>
+    <ion-title>
+      Sale Details
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="logOut()">
+        <ion-icon name="log-out"></ion-icon>
+        </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="menu">
+<ion-chip color="secondary">
+  <ion-label color="dark">Hello</ion-label>
+</ion-chip>
+
+<form [formGroup]="myForm">
+       <!--create array of sale details -->
+        <ion-list formArrayName="saledetails" *ngFor="let sale of myForm.controls.saledetails.controls; let i=index">
+        
+         <ion-card >
+        <ion-card-header>
+     Item No. {{i+1}}
+  </ion-card-header>
+    <ion-card-content>
+            <div [formGroupName]="i">
+                        <!-- <ion-searchbar (ionInput)="getProducts($event)" formControlName="searchTerm" placeholder="Choose Product"></ion-searchbar>
+                        <ion-list *ngIf="(sale.get('searchTerm').valid )">
+                          <ion-item *ngFor="let product of productList" (click)="itemSelected(i,product)">
+                            <h2> {{ product.Make }} </h2>
+                            <h3> Manufacturer: <strong>{{ product.Manufacturer }}</strong> </h3>
+                           
+                          </ion-item>
+                        </ion-list>
+                                            
+                        <ion-item>
+                         <ion-label fixed><ion-icon name="cog" color="primary"></ion-icon>Product:</ion-label>  
+                         <ion-input formControlName="productmake" [ngModel]="productmake" >{{sale.get('productmake')}}</ion-input>
+                        </ion-item> -->
+               <ion-item>
+                <ion-label fixed><ion-icon name="cog" color="primary"></ion-icon> Product:</ion-label>
+                    <ion-select formControlName="productid" placeholder="Choose Product">
+                    <ion-option *ngFor="let Product of Products|async" value="{{Product.$key}}">{{Product.Make}}</ion-option>
+                    </ion-select>
+            </ion-item>
+                    <ion-item-divider></ion-item-divider>
+                    <ion-item>
+                        <ion-label fixed ><ion-icon name="calculator" color="primary"></ion-icon> Quantity:</ion-label>
+                    <ion-input type="number" formControlName="prodqty" min =0 step=1 ></ion-input> 
+                            <!--   <ion-range formControlName="prodqty" snaps="true" step ="1" max="20" [(ngModel)]="prodqty">
+                          <ion-label range-left>0</ion-label>
+                          <ion-label range-right>20</ion-label>
+                          </ion-range> -->
+                      </ion-item>
+                      <ion-item class="error-message" *ngIf="!myForm.controls.saledetails.controls[i].get('prodqty').valid 
+  && myForm.controls.saledetails.controls[i].get('prodqty').dirty">
+  <p>
+    Please Enter Quantity
+  </p>
+</ion-item>
+           
+            </div>
+            
+          
+            
+</ion-card-content> 
+<hr> 
+<ion-row>
+    <ion-col>
+      <button ion-button icon-only *ngIf="myForm.controls.saledetails.controls.length > 1" (click)="removesaledetails(i)" color="danger">
+      <ion-icon name="trash" ></ion-icon>
+      </button>
+    </ion-col>
+    <ion-col>
+      
+    </ion-col>
+    <ion-col left text-center>
+      <ion-note>
+        SubTotal: {{ getsubTotal(i)| currency:"INR":true }} 
+      </ion-note>
+    </ion-col>
+  </ion-row>
+</ion-card>     
+        </ion-list>
+        <ion-row>
+    <ion-col>
+      
+    </ion-col>
+    <ion-col>
+   
+      <button ion-fab small (click)="addsaledetails(myForm.controls.saledetails.controls.length)" color="dark"><ion-icon name="add" ></ion-icon> Item</button>
+
+    </ion-col>
+    <ion-col center text-center>
+     
+        Grand Total: {{ getTotal()| currency:'INR':true}} 
+    
+    </ion-col>
+  </ion-row>
+       
+  
+        
+      
+ <!-- Capture customer details -->
+<ion-card>
+<ion-card-header></ion-card-header>
+<ion-card-content>
+<ion-list>
+<ion-list-header> Customer Details</ion-list-header>
+         <ion-item>
+         
+            <ion-label stacked><ion-icon name="contact" color="primary"></ion-icon> Customer Name</ion-label>
+            
+            <ion-input formControlName="custname" type="text"></ion-input>
+        </ion-item>
+ <ion-item-divider></ion-item-divider>
+        <ion-item>
+            <ion-label stacked><ion-icon name="phone-portrait" color="primary"></ion-icon> Contact Number</ion-label>
+            <ion-input formControlName="contactnum" type="number"></ion-input>
+        </ion-item>
+ <ion-item-divider></ion-item-divider>
+        <ion-item>
+            <ion-label stacked><ion-icon name="mail" color="primary"></ion-icon> Email</ion-label>
+            <ion-input formControlName="email" type="email"></ion-input>
+        </ion-item>
+        <ion-item-divider></ion-item-divider>
+        <ion-item>
+                        <ion-label stacked><ion-icon name="contacts" color="primary"></ion-icon> Customer Category:</ion-label>
+                          <ion-select formControlName="custcat">
+                            <ion-option> Female 18-25</ion-option>
+                            <ion-option> Female 26-35</ion-option>
+                            <ion-option> Female 36-50</ion-option>
+                            <ion-option> Female 50+ </ion-option>
+                            <ion-option> Male 18-25</ion-option>
+                            <ion-option> Male 26-35</ion-option>
+                            <ion-option> Male 36-50</ion-option>
+                            <ion-option> Male 50+ </ion-option>
+                            </ion-select>
+        </ion-item>
+        <ion-item-divider></ion-item-divider>
+        <ion-item>
+                        <ion-label stacked><ion-icon name="card" color="primary"></ion-icon>/<ion-icon name="cash" color="primary"></ion-icon> Customer Payment Mode:</ion-label>
+                          <ion-select formControlName="custpay">
+                            <ion-option> Card</ion-option>
+                            <ion-option> Cash</ion-option>
+                            <ion-option> Aadhar/UPI</ion-option>
+                            <ion-option> e-Wallet</ion-option>
+                            </ion-select>
+        </ion-item>
+        </ion-list>
+        </ion-card-content>
+        </ion-card>
+    </form>
+
+    <button ion-button block (click)="save()" type="submit"  [disabled]="!myForm.valid" block>Save</button>
+
+          <!-- <pre>form value: <br>{{myForm.value | json}}</pre> -->
+        
+</ion-content>
