@@ -4,6 +4,7 @@ import { HomePage } from '../pages/home/home';
 import {AnalyticsService} from '../../providers/analytics-service';
 import { AngularFire, FirebaseListObservable,FirebaseObjectObservable} from 'angularfire2';
 import { Observable } from 'rxjs/Observable';
+import { AuthData } from '../../providers/auth-data';
 /*
   Generated class for the Analytics page.
 
@@ -15,21 +16,26 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: 'analytics.html',
   providers:[AnalyticsService]
 })
+
 export class AnalyticsPage implements OnInit{
     items: Observable<any>;
   cartTotal: Observable<any>;
-  constructor(public navCtrl: NavController,public af: AngularFire, private anlService: AnalyticsService) {
-
+  currentUserid:any;
+currentUser:any;
+  constructor(public navCtrl: NavController,public af: AngularFire, private anltService: AnalyticsService,public authData: AuthData) {
+this.currentUser =this.authData.getUser();
+   this.currentUserid=this.currentUser.uid;
   }
   ngOnInit() {
-    
-      
+         
   }
   
   ionViewDidLoad() {
-    console.log('ionViewDidLoad AnalyticsPage');
+  //  console.log('ionViewDidLoad AnalyticsPage');
   }
-  getsummer(){
-    return this.anlService.getUsertrxnItems();
-}
+  
+  getTodaySale(){
+  return 200;
+  };
+  
   } // class ends here

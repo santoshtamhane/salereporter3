@@ -15,8 +15,8 @@
 </ion-header>
 
 <ion-content class="menu">
-<ion-chip color="secondary">
-  <ion-label color="dark">Hello</ion-label>
+<ion-chip color="positive">
+  <ion-label color="light">Hello {{currentUser.email}}</ion-label>
 </ion-chip>
 
 <form [formGroup]="myForm">
@@ -48,10 +48,10 @@
                     <ion-option *ngFor="let Product of Products|async" value="{{Product.$key}}">{{Product.Make}}</ion-option>
                     </ion-select>
             </ion-item>
-                    <ion-item-divider></ion-item-divider>
+                    
                     <ion-item>
                         <ion-label fixed ><ion-icon name="calculator" color="primary"></ion-icon> Quantity:</ion-label>
-                    <ion-input type="number" formControlName="prodqty" min =0 step=1 ></ion-input> 
+                    <ion-input type="number" formControlName="prodqty" min =0 step=1 placeholder="Enter Quantity Sold"></ion-input> 
                             <!--   <ion-range formControlName="prodqty" snaps="true" step ="1" max="20" [(ngModel)]="prodqty">
                           <ion-label range-left>0</ion-label>
                           <ion-label range-right>20</ion-label>
@@ -65,9 +65,6 @@
 </ion-item>
            
             </div>
-            
-          
-            
 </ion-card-content> 
 <hr> 
 <ion-row>
@@ -111,27 +108,27 @@
 <ion-card-header></ion-card-header>
 <ion-card-content>
 <ion-list>
-<ion-list-header> Customer Details</ion-list-header>
+
          <ion-item>
          
-            <ion-label stacked><ion-icon name="contact" color="primary"></ion-icon> Customer Name</ion-label>
+            <ion-label  stacked><ion-icon name="contact" color="primary"></ion-icon> Customer Name</ion-label>
             
-            <ion-input formControlName="custname" type="text"></ion-input>
+            <ion-input formControlName="custname" type="text" placeholder="Enter Customer Name"></ion-input>
         </ion-item>
- <ion-item-divider></ion-item-divider>
+
         <ion-item>
-            <ion-label stacked><ion-icon name="phone-portrait" color="primary"></ion-icon> Contact Number</ion-label>
-            <ion-input formControlName="contactnum" type="number"></ion-input>
+            <ion-label  stacked><ion-icon name="phone-portrait" color="primary"></ion-icon> Contact Number</ion-label>
+            <ion-input formControlName="contactnum" type="number" placeholder="Enter Mobile"></ion-input>
         </ion-item>
- <ion-item-divider></ion-item-divider>
+
         <ion-item>
-            <ion-label stacked><ion-icon name="mail" color="primary"></ion-icon> Email</ion-label>
-            <ion-input formControlName="email" type="email"></ion-input>
+            <ion-label  stacked><ion-icon name="mail" color="primary"></ion-icon> Email</ion-label>
+            <ion-input formControlName="email" type="email" placeholder="Enter Email"></ion-input>
         </ion-item>
-        <ion-item-divider></ion-item-divider>
+
         <ion-item>
                         <ion-label stacked><ion-icon name="contacts" color="primary"></ion-icon> Customer Category:</ion-label>
-                          <ion-select formControlName="custcat">
+                          <ion-select formControlName="custcat" placeholder="Choose...">
                             <ion-option> Female 18-25</ion-option>
                             <ion-option> Female 26-35</ion-option>
                             <ion-option> Female 36-50</ion-option>
@@ -142,10 +139,10 @@
                             <ion-option> Male 50+ </ion-option>
                             </ion-select>
         </ion-item>
-        <ion-item-divider></ion-item-divider>
+
         <ion-item>
                         <ion-label stacked><ion-icon name="card" color="primary"></ion-icon>/<ion-icon name="cash" color="primary"></ion-icon> Customer Payment Mode:</ion-label>
-                          <ion-select formControlName="custpay">
+                          <ion-select formControlName="custpay" placeholder="Choose..." >
                             <ion-option> Card</ion-option>
                             <ion-option> Cash</ion-option>
                             <ion-option> Aadhar/UPI</ion-option>
@@ -157,7 +154,7 @@
         </ion-card>
     </form>
 
-    <button ion-button block (click)="save()" type="submit"  [disabled]="!myForm.valid" block>Save</button>
+    <button ion-button  (click)="save()" type="submit"  [disabled]="!myForm.valid" block><ion-icon name="download" ></ion-icon> Save</button>
 
           <!-- <pre>form value: <br>{{myForm.value | json}}</pre> -->
         

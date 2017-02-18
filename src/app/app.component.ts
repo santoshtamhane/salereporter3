@@ -16,7 +16,7 @@ export class MyApp {
  zone: NgZone;
 
   pages: Array<{title: string, component: any,icon:string}>;
- 
+ currentuser:any;
   constructor(public platform: Platform) {
       this.zone = new NgZone({});
      firebase.initializeApp({
@@ -33,6 +33,7 @@ export class MyApp {
           unsubscribe();
         } else { 
           this.rootPage = HomePage;
+          this.currentuser=user;
           unsubscribe();
         }
       });     

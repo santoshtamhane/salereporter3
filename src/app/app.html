@@ -6,6 +6,7 @@
   </ion-header>
 
   <ion-content  class="menu">
+
     <ion-list >
       <button ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)"  class="menu">
        <ion-icon [name]="p.icon" color="light"></ion-icon>  {{p.title}}

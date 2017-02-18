@@ -15,21 +15,14 @@ import { AngularFire, FirebaseListObservable,FirebaseObjectObservable} from 'ang
 export class AnalyticsService {
 Products: FirebaseListObservable<any>;
 saletransaction: FirebaseListObservable<any>;
+
   constructor(public http: Http, private af: AngularFire) {
     console.log('Hello AnalyticsService Provider');
     this.Products = af.database.list('/Products');
       this.saletransaction=af.database.list('/saletrxn/trxn/saledetails/');
   }
 
-getUsertrxnItems(): Observable<any> {
-  return this.Products
-    .map(trxns => {
-      return trxns.map(item => {
-        item.product = this.af.database.object('Products/${item.productid}');
-        return item;
-      });
-    });
-  }
+
 
  /* 
   trxnTotals(qty = 0, total = 0) {
@@ -47,7 +40,7 @@ getUsertrxnItems(): Observable<any> {
         }, {qty, total});
       })
   }
-   ******************************************************************************************************************* 
+  ***************************************************************************************************************** 
   findProductKeysForGiventrxn(trxnId: string): Observable<string[]> {
  return this.af.database.list('saletrxn/trxn/saledetails/', {
     query: {

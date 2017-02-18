@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.ionicframework.salereporter3656651" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>salereporter3</name>
-  <description>An awesome Ionic/Cordova app.</description>
+  <name>Sale Reporter</name>
+  <description>Awesome App for Reporting Daily Sales</description>
   <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
   <content src="index.html"/>
   <access origin="*"/>
   <allow-navigation href="http://ionic.local/*"/>
-  <allow-intent href="http://*/*"/>
+  <allow-intent href="*" />
   <allow-intent href="https://*/*"/>
   <allow-intent href="tel:*"/>
   <allow-intent href="sms:*"/>
@@ -14,6 +14,7 @@
   <allow-intent href="geo:*"/>
   <platform name="android">
     <allow-intent href="market:*"/>
+    <allow-intent href="*" />
     <icon src="resources\android\icon\drawable-ldpi-icon.png" density="ldpi"/>
     <icon src="resources\android\icon\drawable-mdpi-icon.png" density="mdpi"/>
     <icon src="resources\android\icon\drawable-hdpi-icon.png" density="hdpi"/>
@@ -36,6 +37,7 @@
   <platform name="ios">
     <allow-intent href="itms:*"/>
     <allow-intent href="itms-apps:*"/>
+    <allow-intent href="*" />
   </platform>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>

@@ -15,9 +15,26 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
-     Total Sales
-  
-<p font size="72"> {{getsummer()}}</p>    
 
+    <ion-content class="analytics">
+ 
+    <ion-grid>
+ 
+      <ion-row style="background-color: #e74c3c;">
+        <ion-col>Today's Sale</ion-col>
+        <p style="font-size:72px">{{getTodaySale()}}</p>
+      </ion-row>
+ 
+      <ion-row style="background-color: #f1c40f;">
+        <ion-col>Monthly Sale</ion-col>
+      </ion-row>
+ 
+      <ion-row style="background-color: #9b59b6;">
+        <ion-col>Monthly Target Achieved</ion-col>
+      </ion-row>
+ 
+    </ion-grid>
+ 
 </ion-content>
+
+
