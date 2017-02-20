@@ -22,11 +22,15 @@
  
       <ion-row style="background-color: #e74c3c;">
         <ion-col>Today's Sale</ion-col>
-        <p style="font-size:72px">{{getTodaySale()}}</p>
+       
+                            
+        <p style="font-size:72px">{{gettotal(1)| currency:"INR":true}}</p>
+  
       </ion-row>
  
       <ion-row style="background-color: #f1c40f;">
         <ion-col>Monthly Sale</ion-col>
+        <p style="font-size:72px">{{gettotal(2)| currency:"INR":true}}</p>
       </ion-row>
  
       <ion-row style="background-color: #9b59b6;">

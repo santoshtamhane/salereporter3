@@ -3,24 +3,24 @@ import { AngularFire, FirebaseListObservable,FirebaseObjectObservable} from 'ang
 import { NavController,ToastController } from 'ionic-angular';
 import { Validators, FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { Geolocation } from 'ionic-native'; /* in index.html add   <script src="http://maps.google.com/maps/api/js"></script> */
-import { AnalyticsPage } from '../pages/analytics/analytics';
+//import { AnalyticsPage } from '../pages/analytics/analytics';
 import firebase from 'firebase';
 import { AuthData } from '../../providers/auth-data';
 import {LoginPage} from '../../pages/login/login';
 import { EmailValidator } from '../../validators/email';
-import {HomeService} from '../../providers/home-service';
+//import {HomeService} from '../../providers/home-service';
 /*import * as firebase from 'firebase';  to get timestamp. Also open src/typings.d.ts and add: declare namespace firebase.database.ServerValue {   let TIMESTAMP: any;}*/
 @Component({
    
   selector: 'page-home',
   templateUrl: 'home.html',
-providers:[HomeService]
+//providers:[HomeService]
 })
 export class HomePage implements OnInit{
 public myForm: FormGroup; // our form model
 Products: FirebaseListObservable<any>;
 saletransaction: FirebaseListObservable<any>;
-prodId:string;
+
 productObject:FirebaseObjectObservable<any>;
 Lat:number;
 Long:number;
@@ -31,10 +31,10 @@ currentUser:any;
 trxnPerSalesPerson:any;
 salesteam:any;
 currentUserid:any;
-  constructor(public navCtrl: NavController,private _fbr:FormBuilder,public af: AngularFire,public toastCtrl: ToastController,public authData: AuthData,private hsrvcs:HomeService) {
+  constructor(public navCtrl: NavController,private _fbr:FormBuilder,public af: AngularFire,public toastCtrl: ToastController,public authData: AuthData) {
       this.Products = af.database.list('/Products');
       this.saletransaction=af.database.list('/saletrxn/');
-      this.trxnPerSalesPerson=af.database.list('/trxnPerSalesPerson/');
+
       this.salesteam=af.database.list('/userProfile');
       /* for autocomplete*/
       this.productref = firebase.database().ref('/Products');
@@ -84,7 +84,8 @@ ngOnInit() {
             // productmake:[{value:null ,disabled:true}],
           //  searchTerm:[,[Validators.required, Validators.minLength(3)]],
             prodqty: [,Validators.required], 
-            productid:[]
+            productid:[],
+            productprice:[]
            
         });
     }
@@ -95,7 +96,6 @@ getTotal(){
     var group = this.myForm as FormGroup;
     var array = group.controls['saledetails'] as FormArray;
     var total=0;
-    var subtotal =0;
     var price =0;
 var makekey;
 var qty=0;
@@ -103,13 +103,12 @@ var qty=0;
     for (var n=0;n< array.length;n++){
         makekey=array.at(n).get('productid').value;
         qty=array.at(n).get('prodqty').value*1;
-        
+        price=array.at(n).get('productprice').value*1;
+      total += (price*  qty);
         
         /*price = this.Products.orderByChild("Make").equalTo(array.at(n).get('prodqty').value)*1;
         
-        
-        
-      //pricelist=this.af.database.object('/Products/'+makekey,{ preserveSnapshot: true} ).subscribe(product =>{price = product.val().Price*1;subtotal = price*qty;});*/
+      //pricelist=this.af.database.object('/Products/'+makekey,{ preserveSnapshot: true} ).subscribe(product =>{price = product.val().Price*1;subtotal = price*qty;});
         
         this.productObject = this.af.database.object('/Products/'+ makekey ,{ preserveSnapshot: true})
         this.productObject.subscribe(snapshot => { 
@@ -120,7 +119,7 @@ var qty=0;
 }
     });
     
-        total+=subtotal;         
+        total+=subtotal;     */    
     };
     return total;
 }
@@ -154,20 +153,18 @@ var qty=0;
         var group = this.myForm as FormGroup;
         var array = group.controls['saledetails'] as FormArray;
         var subtotal =0;
-        var price =0;
         var makekey;
         var qty;
-        
+        var price=0;
         
             makekey=array.at(n).get('productid').value;
             qty=array.at(n).get('prodqty').value*1;
-            this.productObject = this.af.database.object('/Products/'+ makekey ,{ preserveSnapshot: true})
+            this.productObject = this.af.database.object('/Products/'+ makekey ,{ preserveSnapshot: true});
             this.productObject.subscribe(snapshot => { 
-     
             var priceOBJ = snapshot.val(); 
             if (priceOBJ){
                         price=priceOBJ.Price*1;
-           
+                        array.at(n).get('productprice').patchValue(price);
                         subtotal = price*  qty;
     }
         });
@@ -213,29 +210,47 @@ getProducts(searchTerm) {
  var timestamp =Date.now();
  var trxntotal=this.getTotal();
 
-  var trxndata={
-      [currid]:[{salesperson:curruser,
+ /* var trxndata={
+      [currid]:{salesperson:curruser,
       latitude:this.Lat,
       longitude:this.Long,
       timestamp:timestamp,
-      trxndetails:[{sale:this.myForm.value,trxnvalue:trxntotal}]
-      }]
-  };
+      trxnvalue:trxntotal,
+      trxndetails:this.myForm.value
+      } 
+  };*/
+  var trxndata={
+      salesperson:curruser,
+      salepersonid:currid,
+      latitude:this.Lat,
+      longitude:this.Long,
+      timestamp:timestamp,
+      trxnvalue:trxntotal,
+      trxndetails:this.myForm.value
+      } ;
+   
+  
+  this.saletransaction=this.af.database.list('/saletrxn/'+currid);
      var pushref = this.saletransaction.push(trxndata);
   
    //key = this.saletransaction.push({[currid]:{timeofsale:timestamp,salevalue:trxntotal}});
      if(pushref){
+         this.trxnPerSalesPerson=this.af.database.list('/trxnPerSalesPerson/');
          
-         var linkdata ={[currid]:{[pushref.key]:timestamp}}
-      var key1=this.trxnPerSalesPerson.push(linkdata);
+         var trxnmetadata={[currid]:{[pushref.key]:true,
+         trxnvalue:trxntotal,
+      timestamp:timestamp,
+         }};
+         var key1=this.trxnPerSalesPerson.push(trxnmetadata);
     //hsrvcs.settrxnPerproduct(trxndata);
-    if (key1){
+                if (key1){
                 let toast = this.toastCtrl.create({ message: 'Sale Saved Successfully', duration: 2000,position:'bottom' }); 
                 toast.onDidDismiss(() => { this.navCtrl.setRoot(HomePage); })
                 toast.present();
-        }
+                        }
+                };
   }
-    }
+    
     
 logOut(){
   this.authData.logoutUser().then(() => {

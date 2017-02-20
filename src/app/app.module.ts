@@ -12,7 +12,7 @@ import {AuthData} from '../providers/auth-data';
 import { ReactiveFormsModule } from '@angular/forms';
 // Import the AF2 Module
 import { AngularFireModule } from 'angularfire2';
-import firebase from 'firebase';
+//import firebase from 'firebase';
 
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 // Observable class extensions
